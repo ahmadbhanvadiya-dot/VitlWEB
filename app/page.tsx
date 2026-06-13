@@ -1,111 +1,104 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 
 export default function QRInstructionScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Soft glow background circle effect */}
-      <View style={styles.glowTop} />
-      <View style={styles.glowBottom} />
+    <div style={styles.container}>
+      <div style={styles.glowTop}></div>
+      <div style={styles.glowBottom}></div>
 
-      <View style={styles.card}>
-        <Text style={styles.brand}>Vitl</Text>
+      <div style={styles.card}>
+        <h1 style={styles.brand}>Vitl</h1>
 
-        <Text style={styles.title}>
-          Scan the QR code to continue
-        </Text>
+        <h2 style={styles.title}>Scan the QR code to continue</h2>
 
-        <Text style={styles.subtitle}>
-          Secure your health profile in seconds.
-          {"\n"}
+        <p style={styles.subtitle}>
+          Secure your health profile in seconds. <br />
           Your journey to smarter care starts here.
-        </Text>
+        </p>
 
-        <View style={styles.divider} />
+        <div style={styles.divider}></div>
 
-        <Text style={styles.footer}>
-          ⚕️ Powered by Vitl Health System
-        </Text>
-      </View>
-    </SafeAreaView>
+        <p style={styles.footer}>⚕️ Powered by Vitl Health System</p>
+      </div>
+    </div>
   );
 }
 
-const styles = StyleSheet.create({
+const styles: { [key: string]: React.CSSProperties } = {
   container: {
-    flex: 1,
-    backgroundColor: "#EAF7EE", // soft bamboo green
+    height: "100vh",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#EAF7EE",
+    position: "relative",
+    fontFamily: "Arial, sans-serif",
+    overflow: "hidden",
   },
 
   glowTop: {
     position: "absolute",
-    top: -80,
-    right: -60,
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    top: "-80px",
+    right: "-60px",
+    width: "220px",
+    height: "220px",
+    borderRadius: "50%",
     backgroundColor: "#B7E4C7",
     opacity: 0.4,
+    filter: "blur(20px)",
   },
 
   glowBottom: {
     position: "absolute",
-    bottom: -80,
-    left: -60,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
+    bottom: "-80px",
+    left: "-60px",
+    width: "260px",
+    height: "260px",
+    borderRadius: "50%",
     backgroundColor: "#95D5B2",
     opacity: 0.3,
+    filter: "blur(25px)",
   },
 
   card: {
-    width: "85%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 5,
+    width: "360px",
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    padding: "30px 25px",
+    textAlign: "center",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    zIndex: 1,
   },
 
   brand: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#2D6A4F", // deep bamboo green
-    marginBottom: 10,
-    letterSpacing: 1,
+    fontSize: "28px",
+    fontWeight: 700,
+    color: "#2D6A4F",
+    marginBottom: "10px",
   },
 
   title: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: "20px",
+    fontWeight: 600,
     color: "#1B4332",
-    textAlign: "center",
-    marginBottom: 10,
+    marginBottom: "10px",
   },
 
   subtitle: {
-    fontSize: 14,
+    fontSize: "14px",
     color: "#40916C",
-    textAlign: "center",
-    lineHeight: 20,
+    lineHeight: "20px",
   },
 
   divider: {
     width: "60%",
-    height: 1,
+    height: "1px",
     backgroundColor: "#D8F3DC",
-    marginVertical: 20,
+    margin: "20px auto",
   },
 
   footer: {
-    fontSize: 12,
+    fontSize: "12px",
     color: "#74C69D",
   },
-});
+};

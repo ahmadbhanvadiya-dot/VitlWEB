@@ -20,8 +20,15 @@ export default function EmergencyClient({ data }: any) {
     });
 
     const result = await res.json();
-    setTranslated(result.translated);
-    setLoading(false);
+
+console.log("TRANSLATION RESULT:", result);
+
+if (result.error) {
+  alert(result.error);
+  return;
+}
+
+setTranslated(result.translated);
   }
 
   const display = translated || data;
@@ -41,15 +48,28 @@ export default function EmergencyClient({ data }: any) {
       <div className="flex items-center justify-between mb-4 max-w-lg mx-auto">
         
         <select
-          className="border border-slate-200 p-2 rounded-md text-sm"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-        >
-          <option value="hi">Hindi</option>
-          <option value="te">Telugu</option>
-          <option value="ta">Tamil</option>
-          <option value="kn">Kannada</option>
-        </select>
+  value={language}
+  onChange={(e) => setLanguage(e.target.value)}
+  className="
+    bg-white
+    border
+    border-slate-300
+    text-slate-700
+    font-medium
+    px-4
+    py-2
+    rounded-lg
+    shadow-sm
+    focus:outline-none
+    focus:ring-2
+    focus:ring-green-600
+  "
+>
+  <option value="hi">Hindi</option>
+  <option value="te">Telugu</option>
+  <option value="ta">Tamil</option>
+  <option value="kn">Kannada</option>
+</select>
 
         <button
           onClick={handleTranslate}

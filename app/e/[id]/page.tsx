@@ -13,10 +13,13 @@ export default async function EmergencyPage({
 
   const { data, error } = await supabase
   .from("emergency_profiles")
-  .select("*");
+  .select("*")
+  .eq("emergency_id", params.id)
+  .maybeSingle();
 
-console.log("ALL DATA:", data);
-console.log("ERROR:", error);
+console.log("PARAM ID:", params.id);
+console.log("SUPABASE DATA:", data);
+console.log("SUPABASE ERROR:", error);
 
   if (!data) {
     return <div>Emergency profile not found</div>;

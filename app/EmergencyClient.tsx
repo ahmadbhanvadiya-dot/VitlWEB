@@ -3,17 +3,13 @@
 import { useState } from "react";
 
 export default function EmergencyClient({ data }: any) {
-  const [language, setLanguage] = useState("hi");
+  const [language, setLanguage] = useState("en-IN");
   const [translated, setTranslated] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
 
 
   async function handleTranslate() {
-  if (language === "original") {
-    setTranslated(null);
-    return;
-  }
 
   try {
     setLoading(true);
@@ -86,8 +82,6 @@ export default function EmergencyClient({ data }: any) {
     focus:ring-green-600
   "
 >
-  <option value="original">Original Language</option>
-
   <option value="en-IN">English</option>
   <option value="hi-IN">Hindi</option>
   <option value="bn-IN">Bengali</option>

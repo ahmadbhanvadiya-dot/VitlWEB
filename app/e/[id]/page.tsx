@@ -12,13 +12,17 @@ export default async function EmergencyPage({
   console.log("EMERGENCY PAGE LOADED:", id);
 
   const { data, error } = await supabase
-    .from("emergency_profiles")
-    .select("*")
-    .eq("emergency_id", id)
-    .single();
+  .from("emergency_profiles")
+  .select("*")
+  .eq("emergency_id", id)
+  .maybeSingle();
 
   console.log("DATA:", data);
   console.log("ERROR:", error);
+
+  if (error) {
+  console.error("Supabase error:", error);
+}
 
   if (error || !data) {
     notFound();

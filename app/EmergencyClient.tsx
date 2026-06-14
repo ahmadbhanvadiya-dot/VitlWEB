@@ -137,7 +137,7 @@ export default function EmergencyClient({ data }: any) {
       <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between mb-3 max-w-lg mx-auto">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
-            Patient
+            Patient Name
           </p>
           <p className="text-[20px] font-semibold text-slate-900 leading-tight">
             {display.full_name || "Unknown Patient"}

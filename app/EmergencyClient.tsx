@@ -10,11 +10,19 @@ export default function EmergencyClient({ data }: any) {
 
 
   async function handleTranslate() {
+  if (language === "original") {
+    setTranslated(null);
+    return;
+  }
+
+  try {
     setLoading(true);
 
     const res = await fetch("/api/translate", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         data,
         language,
@@ -23,15 +31,21 @@ export default function EmergencyClient({ data }: any) {
 
     const result = await res.json();
 
-console.log("TRANSLATION RESULT:", result);
+    console.log("TRANSLATION RESULT:", result);
 
-if (result.error) {
-  alert(result.error);
-  return;
-}
+    if (result.error) {
+      alert(result.error);
+      return;
+    }
 
-setTranslated(result.translated);
+    setTranslated(result.translated);
+  } catch (err) {
+    console.error(err);
+    alert("Translation failed");
+  } finally {
+    setLoading(false);
   }
+}
 
   const display = translated
   ? {
@@ -90,11 +104,12 @@ setTranslated(result.translated);
 </select>
 
         <button
-          onClick={handleTranslate}
-          className="bg-green-700 text-white px-4 py-2 rounded-md text-sm"
-        >
-          {loading ? "Translating..." : "Translate 🌐"}
-        </button>
+  onClick={handleTranslate}
+  disabled={loading}
+  className="bg-green-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-70"
+>
+  {loading ? "Translating..." : "Translate 🌐"}
+</button>
       </div>
 
       {/* TOP BAR */}

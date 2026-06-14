@@ -136,7 +136,7 @@ export default function EmergencyClient({ data }: any) {
       {/* PATIENT BLOCK */}
       <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between mb-3 max-w-lg mx-auto">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-1">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-800 mb-1">
   {ui.ui_patient_name || "Patient Name"}
 </p>
           <p className="text-[20px] font-semibold text-slate-900 leading-tight">
@@ -145,7 +145,7 @@ export default function EmergencyClient({ data }: any) {
         </div>
 
         <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-center flex-shrink-0 ml-3">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-600 mb-0.5">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-800 mb-0.5">
   {ui.ui_blood_type || "Blood Type"}
 </p>
           <p className="text-[22px] font-bold text-red-600 leading-none">
@@ -155,7 +155,7 @@ export default function EmergencyClient({ data }: any) {
       </div>
 
       {/* CRITICAL INFORMATION */}
-      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-800 mb-2 px-1 max-w-lg mx-auto">
         {ui.ui_critical_information || "Critical Information"}
       </p>
 
@@ -166,7 +166,7 @@ export default function EmergencyClient({ data }: any) {
       </div>
 
       {/* EMERGENCY CONTACT */}
-      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-800 mb-2 px-1 max-w-lg mx-auto">
         {ui.ui_emergency_contact || "Emergency Contact"}
       </p>
 
@@ -184,9 +184,7 @@ export default function EmergencyClient({ data }: any) {
               <p className="text-[15px] font-semibold text-slate-800 truncate">
                 {display.emergency_contact_name || "Not available"}
               </p>
-              <p className="text-[12px] text-slate-400">
-                Emergency contact
-              </p>
+              
             </div>
           </div>
 

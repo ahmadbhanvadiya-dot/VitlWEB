@@ -57,25 +57,25 @@ export default async function EmergencyPage({
       {/* Patient block */}
       <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between mb-3 max-w-lg mx-auto">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
             Patient
           </p>
-          <p className="text-[17px] font-semibold text-slate-900 leading-tight">
+          <p className="text-[20px] font-semibold text-slate-900 leading-tight">
             {data.full_name || "Unknown Patient"}
           </p>
         </div>
         <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-center flex-shrink-0 ml-3">
-          <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">
             Blood type
           </p>
-          <p className="text-[20px] font-bold text-red-600 leading-none">
+          <p className="text-[22px] font-bold text-red-600 leading-none">
             {data.blood_group || "—"}
           </p>
         </div>
       </div>
 
       {/* Critical information */}
-      <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
         Critical information
       </p>
 
@@ -98,7 +98,7 @@ export default async function EmergencyPage({
       </div>
 
       {/* Emergency contact */}
-      <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
         Emergency contact
       </p>
 
@@ -111,10 +111,10 @@ export default async function EmergencyPage({
                 : "—"}
             </div>
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold text-slate-800 truncate">
+              <p className="text-[15px] font-semibold text-slate-800 truncate">
                 {data.emergency_contact_name || "Not available"}
               </p>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[12px] text-slate-400">
                 Emergency contact
               </p>
             </div>
@@ -122,7 +122,7 @@ export default async function EmergencyPage({
           {data.emergency_contact_phone && (
             <a
               href={`tel:${data.emergency_contact_phone}`}
-              className="flex items-center gap-1.5 bg-[#166634] text-white text-[12px] font-semibold rounded-lg px-3 py-2 flex-shrink-0 active:opacity-80 transition-opacity"
+              className="flex items-center gap-1.5 bg-[#166634] text-white text-[14px] font-semibold rounded-lg px-4 py-2.5 flex-shrink-0 active:opacity-80 transition-opacity"
             >
               <PhoneIcon />
               Call
@@ -131,7 +131,7 @@ export default async function EmergencyPage({
         </div>
 
         {data.emergency_contact_phone && (
-          <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[12px] text-slate-500">
+          <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[14px] text-slate-500">
             <MobileIcon />
             {data.emergency_contact_phone}
           </div>
@@ -156,16 +156,16 @@ function FieldRow({
   value?: string | null;
 }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl px-3 py-2.5 flex items-start gap-3">
-      <div className="w-7 h-7 rounded-md bg-red-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+    <div className="bg-white border border-slate-200 rounded-xl px-4 py-3.5 flex items-start gap-3">
+      <div className="w-8 h-8 rounded-md bg-red-50 flex items-center justify-center flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1">
+        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-1">
           {label}
         </p>
         <p
-          className={`text-[13px] font-medium leading-snug ${
+          className={`text-[15px] font-medium leading-snug ${
             value ? "text-slate-800" : "text-slate-300 italic"
           }`}
         >
@@ -178,7 +178,7 @@ function FieldRow({
 
 function CrossIcon() {
   return (
-    <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9" /><path d="m15 9-6 6M9 9l6 6" />
     </svg>
   );
@@ -186,7 +186,7 @@ function CrossIcon() {
 
 function HeartIcon() {
   return (
-    <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 12h2l2-7 4 14 3-9 2 2h5" />
     </svg>
   );
@@ -194,7 +194,7 @@ function HeartIcon() {
 
 function PillIcon() {
   return (
-    <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
       <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" /><path d="m8.5 8.5 7 7" />
     </svg>
   );

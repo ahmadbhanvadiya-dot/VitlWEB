@@ -1,5 +1,5 @@
 import EmergencyClient from "../../EmergencyClient";
-import { supabase } from "../../../lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
 export default async function EmergencyPage({

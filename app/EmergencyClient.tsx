@@ -58,9 +58,22 @@ setTranslated(result.translated);
       <div className="flex items-center justify-between mb-4 max-w-lg mx-auto">
         
         <select
-  className="bg-white border border-slate-300 px-3 py-2 rounded-lg text-sm font-medium"
   value={language}
   onChange={(e) => setLanguage(e.target.value)}
+  className="
+    bg-white
+    border
+    border-slate-300
+    text-slate-700
+    font-medium
+    px-4
+    py-2
+    rounded-lg
+    shadow-sm
+    focus:outline-none
+    focus:ring-2
+    focus:ring-green-600
+  "
 >
   <option value="original">Original Language</option>
 

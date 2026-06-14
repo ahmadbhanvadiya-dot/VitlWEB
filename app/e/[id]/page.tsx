@@ -7,25 +7,21 @@ export default async function EmergencyPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const id = params.id;
 
-  console.log("EMERGENCY PAGE LOADED:", id);
+  console.log("🔥 PAGE HIT:", id);
 
   const { data, error } = await supabase
-  .from("emergency_profiles")
-  .select("*")
-  .eq("emergency_id", id)
-  .maybeSingle();
+    .from("emergency_profiles")
+    .select("*")
+    .eq("emergency_id", id)
+    .maybeSingle();
 
   console.log("DATA:", data);
   console.log("ERROR:", error);
 
-  if (error) {
-  console.error("Supabase error:", error);
-}
-
-  if (error || !data) {
-    notFound();
+  if (!data) {
+    return <div>Emergency profile not found</div>;
   }
 
   return <EmergencyClient data={data} />;

@@ -6,7 +6,7 @@ export default function EmergencyClient({ data }: any) {
   const [language, setLanguage] = useState("en-IN");
   const [translated, setTranslated] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-
+const [sendingSOS, setSendingSOS] = useState(false);
   
   async function handleTranslate() {
 
@@ -57,6 +57,55 @@ export default function EmergencyClient({ data }: any) {
       .slice(0, 2)
       .join("")
       .toUpperCase();
+
+      const handleSOS = async () => {
+  try {
+    setSendingSOS(true);
+
+    if (!display.emergency_contact_phone) {
+      alert("No emergency contact available.");
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        const mapsLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+        const message =
+          `🚨 SOS ALERT 🚨\n\n` +
+          `${display.full_name || "Patient"} may need immediate assistance.\n\n` +
+          `Blood Group: ${display.blood_group || "Unknown"}\n` +
+          `Allergies: ${display.allergies || "None"}\n` +
+          `Conditions: ${display.conditions || "None"}\n\n` +
+          `Current Location:\n${mapsLink}`;
+
+        const smsUrl = `sms:${display.emergency_contact_phone}?body=${encodeURIComponent(
+          message
+        )}`;
+
+        window.location.href = smsUrl;
+
+        setSendingSOS(false);
+      },
+      (error) => {
+        console.error(error);
+        alert("Unable to retrieve location.");
+        setSendingSOS(false);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    alert("Failed to create SOS message.");
+    setSendingSOS(false);
+  }
+};
 
   return (
     <main className="min-h-screen bg-[#F7FAF8] px-4 py-5 font-sans">
@@ -199,12 +248,25 @@ export default function EmergencyClient({ data }: any) {
           )}
         </div>
 
+        
+
         {display.emergency_contact_phone && (
           <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[14px] text-slate-500">
             <MobileIcon />
             {display.emergency_contact_phone}
           </div>
         )}
+
+        {display.emergency_contact_phone && (
+  <button
+    onClick={handleSOS}
+    disabled={sendingSOS}
+    className="w-full mt-4 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition disabled:opacity-50"
+  >
+    {sendingSOS ? "Getting Location..." : "🚨 Send SOS Location"}
+  </button>
+)}
+
       </div>
 
       {/* FOOTER */}

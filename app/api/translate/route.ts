@@ -21,6 +21,7 @@ export async function POST(req: Request) {
   ui_medications: "Current Medications",
   ui_emergency_contact: "Emergency Contact",
   ui_call: "Call",
+  
 };
 
     const translatedFields: Record<string, string> = {};

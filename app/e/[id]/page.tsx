@@ -13,9 +13,9 @@ console.log("ID:", id);
 console.log("SUPABASE URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
   const { data, error } = await supabase
   .from("emergency_profiles")
-  .select("*")
-  .eq("emergency_id", id);
+  .select("*");
 
+console.log("ID:", id);
 console.log("DATA:", data);
 console.log("ERROR:", error);
   if (error || !data) notFound();

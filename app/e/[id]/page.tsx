@@ -1,22 +1,176 @@
+"use client";
+
+import { use, useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { notFound } from "next/navigation";
 
-export default async function EmergencyPage({
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+interface EmergencyProfile {
+  full_name: string;
+  blood_group: string;
+  allergies: string;
+  conditions: string;
+  medications: string;
+  emergency_contact_name: string;
+  emergency_contact_phone: string;
+  emergency_contacts?: { phone: string; priority: "primary" | "secondary" }[];
+}
+
+// ─── SOS Button ──────────────────────────────────────────────────────────────
+
+function SOSButton({ profile }: { profile: EmergencyProfile }) {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const sendSOS = () => {
+    setLoading(true);
+    setStatus("idle");
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      setLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+        // Prefer structured emergency_contacts array; fall back to flat fields
+        const primaryPhone =
+          profile.emergency_contacts?.find((c) => c.priority === "primary")
+            ?.phone ?? profile.emergency_contact_phone;
+
+        if (!primaryPhone) {
+          alert("No primary emergency contact phone number found.");
+          setLoading(false);
+          return;
+        }
+
+        const message =
+          `🚨 SOS ALERT 🚨\n\n` +
+          `${profile.full_name || "Someone"} may need immediate assistance.\n\n` +
+          `📍 Current Location:\n${mapsLink}`;
+
+        const smsUrl = `sms:${primaryPhone}?body=${encodeURIComponent(message)}`;
+        window.location.href = smsUrl;
+
+        setStatus("success");
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Geolocation error:", err);
+        alert("Failed to get your location. Please enable location access.");
+        setStatus("error");
+        setLoading(false);
+      },
+      { timeout: 10000 }
+    );
+  };
+
+  return (
+    <div className="space-y-2">
+      <button
+        onClick={sendSOS}
+        disabled={loading}
+        className="w-full bg-red-600 text-white py-4 rounded-2xl font-bold text-lg
+                   hover:bg-red-700 active:scale-95 transition-all duration-150
+                   disabled:opacity-60 disabled:cursor-not-allowed
+                   flex items-center justify-center gap-2 shadow-md shadow-red-200"
+      >
+        {loading ? (
+          <>
+            <span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+            Getting Location…
+          </>
+        ) : (
+          "🚨 Send SOS with Location"
+        )}
+      </button>
+
+      {status === "success" && (
+        <p className="text-center text-sm text-green-600 font-medium">
+          ✅ SOS message opened in your SMS app.
+        </p>
+      )}
+      {status === "error" && (
+        <p className="text-center text-sm text-red-500 font-medium">
+          ❌ Could not get location. Check browser permissions.
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── Info Card ───────────────────────────────────────────────────────────────
+
+function InfoCard({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string | null | undefined;
+  icon: string;
+}) {
+  return (
+    <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50">
+      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">
+        {label}
+      </p>
+      <p className="text-slate-800 font-medium leading-snug">
+        {icon} {value || "None"}
+      </p>
+    </div>
+  );
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
+
+export default function EmergencyPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const { id } = use(params);
+  const [profile, setProfile] = useState<EmergencyProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const { data, error } = await supabase
-    .from("emergency_profiles")
-    .select("*")
-    .eq("emergency_id", id)
-    .single();
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data, error } = await supabase
+        .from("emergency_profiles")
+        .select("*")
+        .eq("emergency_id", id)
+        .single();
 
-  if (error || !data) {
-    notFound();
+      if (error || !data) {
+        // Trigger Next.js 404
+        notFound();
+        return;
+      }
+
+      setProfile(data as EmergencyProfile);
+      setLoading(false);
+    }
+
+    fetchProfile();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-slate-500">
+          <span className="animate-spin w-8 h-8 border-4 border-red-500 border-t-transparent rounded-full" />
+          <p className="text-sm font-medium">Loading emergency profile…</p>
+        </div>
+      </main>
+    );
   }
+
+  if (!profile) return null;
 
   const initials = (name: string) =>
     name
@@ -27,121 +181,91 @@ export default async function EmergencyPage({
       .toUpperCase();
 
   return (
-    <main className="min-h-screen bg-[#F7FAF8] px-4 py-5 font-sans">
-      {/* Top bar */}
-      <div className="flex items-center justify-between mb-4 max-w-lg mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-[#166634] rounded-md flex items-center justify-center flex-shrink-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M8 12h8M12 8v8M12 3a9 9 0 1 0 0 18A9 9 0 0 0 12 3z" />
-            </svg>
-          </div>
-          <span className="text-[13px] font-semibold text-[#166634] tracking-tight">
-            VITL Health
-          </span>
-        </div>
-        <span className="text-[11px] font-medium text-red-600 bg-red-50 border border-red-200 rounded px-2 py-1 leading-none">
-          Emergency Access
-        </span>
-      </div>
-
-      {/* Patient block */}
-      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between mb-3 max-w-lg mx-auto">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
-            Patient
+    <main className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden">
+        {/* Header */}
+        <div className="bg-red-600 text-white p-6">
+          <h1 className="text-2xl font-bold">
+            🚑 Emergency Medical Profile
+          </h1>
+          <p className="text-red-100 mt-1">
+            Access provided through VITL
           </p>
-          <p className="text-[17px] font-semibold text-slate-900 leading-tight">
+        </div>
+
+        {/* Medical Warning */}
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4">
+          <p className="text-sm text-amber-800">
+            This information may be critical for emergency responders.
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-5">
+          <h2 className="text-2xl font-bold text-slate-900">
             {data.full_name || "Unknown Patient"}
-          </p>
-        </div>
-        <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-center flex-shrink-0 ml-3">
-          <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">
-            Blood type
-          </p>
-          <p className="text-[20px] font-bold text-red-600 leading-none">
-            {data.blood_group || "—"}
-          </p>
-        </div>
-      </div>
+          </h2>
 
-      {/* Critical information */}
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 px-1 max-w-lg mx-auto">
-        Critical information
-      </p>
-
-      <div className="flex flex-col gap-2 mb-3 max-w-lg mx-auto">
-        <FieldRow
-          icon={<CrossIcon />}
-          label="Allergies"
-          value={data.allergies}
-        />
-        <FieldRow
-          icon={<HeartIcon />}
-          label="Medical conditions"
-          value={data.conditions}
-        />
-        <FieldRow
-          icon={<PillIcon />}
-          label="Current medications"
-          value={data.medications}
-        />
-      </div>
-
-      {/* Emergency contact */}
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 px-1 max-w-lg mx-auto">
-        Emergency contact
-      </p>
-
-      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 mb-5 max-w-lg mx-auto">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-green-50 border border-green-200 flex items-center justify-center text-[12px] font-semibold text-[#166634] flex-shrink-0">
-              {data.emergency_contact_name
-                ? initials(data.emergency_contact_name)
-                : "—"}
-            </div>
-            <div className="min-w-0">
-              <p className="text-[13px] font-semibold text-slate-800 truncate">
-                {data.emergency_contact_name || "Not available"}
-              </p>
-              <p className="text-[11px] text-slate-400">
-                Emergency contact
-              </p>
-            </div>
+          {/* Blood Group */}
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-gray-500">Blood Group</p>
+            <p className="text-slate-900 font-medium text-lg">
+              🩸 {data.blood_group || "Unknown"}
+            </p>
           </div>
-          {data.emergency_contact_phone && (
-            <a
-              href={`tel:${data.emergency_contact_phone}`}
-              className="flex items-center gap-1.5 bg-[#166634] text-white text-[12px] font-semibold rounded-lg px-3 py-2 flex-shrink-0 active:opacity-80 transition-opacity"
-            >
-              <PhoneIcon />
-              Call
-            </a>
-          )}
+
+          {/* Allergies */}
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-gray-500">Allergies</p>
+            <p className="text-slate-900">
+              ⚠️ {data.allergies || "None"}
+            </p>
+          </div>
+
+          {/* Medical Conditions */}
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-gray-500">Medical Conditions</p>
+            <p className="text-slate-900">
+              🩺 {data.conditions || "None"}
+            </p>
+          </div>
+
+          {/* Medications */}
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-gray-500">Current Medications</p>
+            <p className="text-slate-900">
+              💊 {data.medications || "None"}
+            </p>
+          </div>
+
+          {/* Emergency Contact */}
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-gray-500">Emergency Contact</p>
+
+            <p className="font-semibold text-slate-900">
+              {data.emergency_contact_name || "Not Available"}
+            </p>
+
+            <p className="text-slate-500 text-sm mt-1">
+              {data.emergency_contact_phone || "No phone number available"}
+            </p>
+
+            {data.emergency_contact_phone && (
+              <a
+                href={`tel:${data.emergency_contact_phone}`}
+                className="mt-3 flex items-center justify-center w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
+              >
+                📞 Call Emergency Contact
+              </a>
+            )}
+          </div>
         </div>
 
-        {data.emergency_contact_phone && (
-          <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[12px] text-slate-500">
-            <MobileIcon />
-            {data.emergency_contact_phone}
-          </div>
-        )}
+        {/* Footer */}
+        <div className="pb-6 text-center text-xs text-slate-400">
+          Powered by VITL Emergency Access
+        </div>
       </div>
-
-      {/* Footer */}
-      <p className="text-center text-[10px] text-slate-300 tracking-wide max-w-lg mx-auto">
-        Powered by VITL Emergency Access
-      </p>
     </main>
   );
 }

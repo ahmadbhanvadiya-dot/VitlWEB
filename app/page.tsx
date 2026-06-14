@@ -1,111 +1,65 @@
-import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import Image from "next/image";
 
 export default function QRInstructionScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Soft glow background circle effect */}
-      <View style={styles.glowTop} />
-      <View style={styles.glowBottom} />
-
-      <View style={styles.card}>
-        <Text style={styles.brand}>Vitl</Text>
-
-        <Text style={styles.title}>
-          Scan the QR code to continue
-        </Text>
-
-        <Text style={styles.subtitle}>
-          Secure your health profile in seconds.
-          {"\n"}
-          Your journey to smarter care starts here.
-        </Text>
-
-        <View style={styles.divider} />
-
-        <Text style={styles.footer}>
-          ⚕️ Powered by Vitl Health System
-        </Text>
-      </View>
-    </SafeAreaView>
+    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={100}
+          height={20}
+          priority
+        />
+        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+            To get started, edit the page.tsx file.
+          </h1>
+          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            Looking for a starting point or more instructions? Head over to{" "}
+            <a
+              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              className="font-medium text-zinc-950 dark:text-zinc-50"
+            >
+              Templates
+            </a>{" "}
+            or the{" "}
+            <a
+              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              className="font-medium text-zinc-950 dark:text-zinc-50"
+            >
+              Learning
+            </a>{" "}
+            center.
+          </p>
+        </div>
+        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+          <a
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={16}
+              height={16}
+            />
+            Deploy Now
+          </a>
+          <a
+            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Documentation
+          </a>
+        </div>
+      </main>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#EAF7EE", // soft bamboo green
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  glowTop: {
-    position: "absolute",
-    top: -80,
-    right: -60,
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: "#B7E4C7",
-    opacity: 0.4,
-  },
-
-  glowBottom: {
-    position: "absolute",
-    bottom: -80,
-    left: -60,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: "#95D5B2",
-    opacity: 0.3,
-  },
-
-  card: {
-    width: "85%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-
-  brand: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#2D6A4F", // deep bamboo green
-    marginBottom: 10,
-    letterSpacing: 1,
-  },
-
-  title: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1B4332",
-    textAlign: "center",
-    marginBottom: 10,
-  },
-
-  subtitle: {
-    fontSize: 14,
-    color: "#40916C",
-    textAlign: "center",
-    lineHeight: 20,
-  },
-
-  divider: {
-    width: "60%",
-    height: 1,
-    backgroundColor: "#D8F3DC",
-    marginVertical: 20,
-  },
-
-  footer: {
-    fontSize: 12,
-    color: "#74C69D",
-  },
-});

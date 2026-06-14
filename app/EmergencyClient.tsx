@@ -7,8 +7,7 @@ export default function EmergencyClient({ data }: any) {
   const [translated, setTranslated] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-
-
+  
   async function handleTranslate() {
 
   try {
@@ -49,6 +48,7 @@ export default function EmergencyClient({ data }: any) {
       ...translated,
     }
   : data;
+  const ui = translated || {};
 
   const initials = (name: string) =>
     name
@@ -136,18 +136,18 @@ export default function EmergencyClient({ data }: any) {
       {/* PATIENT BLOCK */}
       <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between mb-3 max-w-lg mx-auto">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
-            Patient Name
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-1">
+  {ui.ui_patient_name || "Patient Name"}
+</p>
           <p className="text-[20px] font-semibold text-slate-900 leading-tight">
             {display.full_name || "Unknown Patient"}
           </p>
         </div>
 
         <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-center flex-shrink-0 ml-3">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">
-            Blood type
-          </p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-600 mb-0.5">
+  {ui.ui_blood_type || "Blood Type"}
+</p>
           <p className="text-[22px] font-bold text-red-600 leading-none">
             {display.blood_group || "—"}
           </p>
@@ -156,18 +156,18 @@ export default function EmergencyClient({ data }: any) {
 
       {/* CRITICAL INFORMATION */}
       <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
-        Critical information
+        {ui.ui_critical_information || "Critical Information"}
       </p>
 
       <div className="flex flex-col gap-2 mb-3 max-w-lg mx-auto">
-        <FieldRow icon={<CrossIcon />} label="Allergies" value={display.allergies} />
-        <FieldRow icon={<HeartIcon />} label="Medical conditions" value={display.conditions} />
-        <FieldRow icon={<PillIcon />} label="Current medications" value={display.medications} />
+        <FieldRow icon={<CrossIcon />} label={ui.ui_allergies || "Allergies"} value={display.allergies} />
+        <FieldRow icon={<HeartIcon />} label={ui.ui_conditions || "Medical Conditions"} value={display.conditions} />
+        <FieldRow icon={<PillIcon />} label={ui.ui_medications || "Current Medications"} value={display.medications} />
       </div>
 
       {/* EMERGENCY CONTACT */}
       <p className="text-[12px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
-        Emergency contact
+        {ui.ui_emergency_contact || "Emergency Contact"}
       </p>
 
       <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 mb-5 max-w-lg mx-auto">
@@ -196,7 +196,7 @@ export default function EmergencyClient({ data }: any) {
               className="flex items-center gap-1.5 bg-[#166634] text-white text-[14px] font-semibold rounded-lg px-4 py-2.5 flex-shrink-0 active:opacity-80"
             >
               <PhoneIcon />
-              Call
+              {ui.ui_call || "Call"}
             </a>
           )}
         </div>

@@ -5,12 +5,23 @@ export async function POST(req: Request) {
     const { data, language } = await req.json();
 
     const fields = {
-      full_name: data.full_name || "",
-      allergies: data.allergies || "",
-      conditions: data.conditions || "",
-      medications: data.medications || "",
-      emergency_contact_name: data.emergency_contact_name || "",
-    };
+  // Patient Data
+  full_name: data.full_name || "",
+  allergies: data.allergies || "",
+  conditions: data.conditions || "",
+  medications: data.medications || "",
+  emergency_contact_name: data.emergency_contact_name || "",
+
+  // UI Labels
+  ui_patient_name: "Patient Name",
+  ui_blood_type: "Blood Type",
+  ui_critical_information: "Critical Information",
+  ui_allergies: "Allergies",
+  ui_conditions: "Medical Conditions",
+  ui_medications: "Current Medications",
+  ui_emergency_contact: "Emergency Contact",
+  ui_call: "Call",
+};
 
     const translatedFields: Record<string, string> = {};
 

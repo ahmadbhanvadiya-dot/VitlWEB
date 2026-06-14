@@ -1,11 +1,11 @@
-export default async function EmergencyPage(props: any) {
-  console.log("FULL PROPS:", props);
+export default async function EmergencyPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
 
   return (
-    <div>
-      <h1>DEBUG</h1>
-      <pre>{JSON.stringify(props, null, 2)}</pre>
-      <p>Current URL route hit</p>
-    </div>
+    <pre>{JSON.stringify(resolvedParams, null, 2)}</pre>
   );
 }

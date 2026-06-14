@@ -8,7 +8,7 @@ export default async function EmergencyPage({
   params: { id: string };
 }) {
   const { id } = params;
-
+console.log("EMERGENCY PAGE LOADED:", id);
   const { data, error } = await supabase
     .from("emergency_profiles")
     .select("*")
@@ -16,6 +16,7 @@ export default async function EmergencyPage({
     .single();
 
   if (error || !data) notFound();
+
 
   return <EmergencyClient data={data} />;
 }

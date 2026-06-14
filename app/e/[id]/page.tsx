@@ -75,7 +75,7 @@ export default async function EmergencyPage({
       </div>
 
       {/* Critical information */}
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
         Critical information
       </p>
 
@@ -98,7 +98,7 @@ export default async function EmergencyPage({
       </div>
 
       {/* Emergency contact */}
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 px-1 max-w-lg mx-auto">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-2 px-1 max-w-lg mx-auto">
         Emergency contact
       </p>
 
@@ -161,7 +161,7 @@ function FieldRow({
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1">
           {label}
         </p>
         <p

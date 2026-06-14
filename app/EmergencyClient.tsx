@@ -233,7 +233,7 @@ function FieldRow({
       </div>
 
       <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-600 mb-1">
+        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-800 mb-1">
           {label}
         </p>
 

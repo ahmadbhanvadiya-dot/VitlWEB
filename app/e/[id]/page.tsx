@@ -22,7 +22,12 @@ export default async function EmergencyPage({
   }
 
   if (!data) {
-    return <div>Emergency profile not found</div>;
+    return (
+  <div className="p-6 text-center">
+    <h1>Emergency Profile Not Found</h1>
+    <p>The QR code may be invalid or the profile may have been removed.</p>
+  </div>
+);
   }
 
   return <EmergencyClient data={data} />;

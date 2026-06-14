@@ -7,10 +7,7 @@ export default function EmergencyClient({ data }: any) {
   const [translated, setTranslated] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  if (language === "original") {
-  setTranslated(null);
-  return;
-}
+
 
   async function handleTranslate() {
     setLoading(true);

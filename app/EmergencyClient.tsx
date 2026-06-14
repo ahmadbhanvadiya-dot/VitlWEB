@@ -7,6 +7,11 @@ export default function EmergencyClient({ data }: any) {
   const [translated, setTranslated] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
+  if (language === "original") {
+  setTranslated(null);
+  return;
+}
+
   async function handleTranslate() {
     setLoading(true);
 
@@ -31,7 +36,12 @@ if (result.error) {
 setTranslated(result.translated);
   }
 
-  const display = data;
+  const display = translated
+  ? {
+      ...data,
+      ...translated,
+    }
+  : data;
 
   const initials = (name: string) =>
     name
@@ -48,27 +58,25 @@ setTranslated(result.translated);
       <div className="flex items-center justify-between mb-4 max-w-lg mx-auto">
         
         <select
+  className="bg-white border border-slate-300 px-3 py-2 rounded-lg text-sm font-medium"
   value={language}
   onChange={(e) => setLanguage(e.target.value)}
-  className="
-    bg-white
-    border
-    border-slate-300
-    text-slate-700
-    font-medium
-    px-4
-    py-2
-    rounded-lg
-    shadow-sm
-    focus:outline-none
-    focus:ring-2
-    focus:ring-green-600
-  "
 >
-  <option value="hi">Hindi</option>
-  <option value="te">Telugu</option>
-  <option value="ta">Tamil</option>
-  <option value="kn">Kannada</option>
+  <option value="original">Original Language</option>
+
+  <option value="en-IN">English</option>
+  <option value="hi-IN">Hindi</option>
+  <option value="bn-IN">Bengali</option>
+  <option value="te-IN">Telugu</option>
+  <option value="mr-IN">Marathi</option>
+  <option value="ta-IN">Tamil</option>
+  <option value="ur-IN">Urdu</option>
+  <option value="gu-IN">Gujarati</option>
+  <option value="kn-IN">Kannada</option>
+  <option value="ml-IN">Malayalam</option>
+  <option value="pa-IN">Punjabi</option>
+  <option value="or-IN">Odia</option>
+  <option value="as-IN">Assamese</option>
 </select>
 
         <button

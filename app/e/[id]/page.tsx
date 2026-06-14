@@ -8,7 +8,6 @@ export default async function EmergencyPage({
 }) {
   const { id } = await params;
 
-  console.log("🔥 PAGE HIT:", id);
 
   const { data, error } = await supabase
     .from("emergency_profiles")
@@ -16,9 +15,7 @@ export default async function EmergencyPage({
     .eq("emergency_id", id)
     .maybeSingle();
 
-  console.log("PARAM ID:", id);
-  console.log("SUPABASE DATA:", data);
-  console.log("SUPABASE ERROR:", error);
+
 
   if (error) {
     return <div>Database error: {error.message}</div>;

@@ -100,19 +100,6 @@ setTranslated(result.translated);
         </button>
       </div>
 
-{/* TRANSLATED TEXT PREVIEW */}
-{translated && (
-  <div className="bg-white border border-slate-200 rounded-xl p-4 mb-4 max-w-lg mx-auto">
-    <h3 className="font-semibold text-slate-800 mb-2">
-      Translated Information
-    </h3>
-
-    <pre className="whitespace-pre-wrap text-sm text-slate-700">
-      {translated}
-    </pre>
-  </div>
-)}
-
       {/* TOP BAR */}
       <div className="flex items-center justify-between mb-4 max-w-lg mx-auto">
         <div className="flex items-center gap-2">
